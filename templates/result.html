@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Review #{{ item['id'] }} · Inkloom AI{% endblock %}
+{% block content %}
+<div class="breadcrumbs"><a href="{{ url_for('index') }}">Workspace</a><span>/</span><a href="{{ url_for('history') }}">Review history</a><span>/</span><b>Review #{{ item['id'] }}</b></div>
+<div class="result-top"><div><p class="eyebrow">CONTENT REVIEW / #{{ item['id'] }}</p><h1>Review findings</h1><p class="lead compact">Understand each potential issue, then choose the next step for this draft.</p></div><span class="status status-large status-{{ item['status']|lower|replace(' ', '-') }}">{{ item['status'] }}</span></div>
+
+<div class="result-grid">
+  <div class="result-main">
+    <section class="panel draft-panel"><div class="panel-heading"><div><span class="section-icon">Aa</span><div><h2>Submitted draft</h2><p class="muted">Original text submitted for review</p></div></div><span class="draft-length">{{ item['draft']|length }} chars</span></div><p class="draft-text">{{ item['draft'] }}</p></section>
+    <div class="findings-heading"><div><p class="eyebrow">RULE-BASED ANALYSIS</p><h2>{{ issues|length }} potential issue{% if issues|length != 1 %}s{% endif %} found</h2></div><span class="finding-note">Sample rules only</span></div>
+    {% if issues %}
+    <div class="issues">{% for issue in issues %}
+      <article class="issue-card">
+        <div class="issue-title"><span class="warning">!</span><div class="issue-title-copy"><div class="issue-meta"><span class="category">{{ issue.category }}</span><span class="severity severity-{{ issue.severity|lower|replace(' ', '-') }}">{{ issue.severity }} attention</span></div><h3>{{ issue.title }}</h3><p>{{ issue.reason }}</p></div></div>
+        <div class="issue-detail"><span class="detail-icon">↳</span><div><b>Suggested next step</b><p>{{ issue.suggestion }}</p></div></div>
+      </article>
+    {% endfor %}</div>
+    {% else %}
+      <div class="success-card"><span class="success-symbol">✓</span><div><h3>No sample-rule issues detected</h3><p>This only means the prototype did not match its current rules. It does not guarantee factual accuracy or full brand compliance.</p></div></div>
+    {% endif %}
+    <section class="panel approval-panel"><div class="approval-heading"><span class="section-icon approval-icon">◎</span><div><p class="eyebrow">FINAL STEP</p><h2>Human review decision</h2><p class="muted">Nothing is published automatically. Your choice updates the saved review status.</p></div></div><form action="{{ url_for('status', review_id=item['id']) }}" method="post" class="status-actions"><button name="status" value="Approved" class="button" type="submit">✓ Approve</button><button name="status" value="Needs Changes" class="button secondary" type="submit">↻ Request changes</button><button name="status" value="Rejected" class="button danger" type="submit">× Reject</button></form></section>
+  </div>
+  <aside class="result-side">
+    <section class="side-card"><p class="eyebrow">REVIEW SUMMARY</p><div class="summary-number">{{ issues|length }}</div><b>Potential findings</b><p class="muted">These are rule matches, not confirmed errors.</p><div class="side-divider"></div><div class="summary-row"><span>Review ID</span><b>#{{ item['id'] }}</b></div><div class="summary-row"><span>Submitted</span><b>{{ item['created_at'] }}</b></div><div class="summary-row"><span>Status</span><b>{{ item['status'] }}</b></div></section>
+    <section class="side-card guidance-card"><span class="guidance-icon">✦</span><h3>Reviewer guidance</h3><ul><li>Check each finding against the relevant rule.</li><li>Verify factual claims with an approved source.</li><li>Keep meaning intact when editing.</li><li>Make the final decision yourself.</li></ul><a href="{{ url_for('guidelines') }}" class="text-link">Explore brand rules →</a></section>
+  </aside>
+</div>
+{% endblock %}

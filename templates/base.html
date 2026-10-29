@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Inkloom AI brand governance review prototype">
+  <title>{% block title %}Inkloom AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="nav-inner">
+    <a class="brand" href="{{ url_for('index') }}"><span class="logo">i</span><span class="brand-name">inkloom <b>AI</b><small>BRAND GOVERNANCE</small></span></a>
+    <nav aria-label="Main navigation"><a class="{{ 'nav-active' if request.endpoint == 'index' else '' }}" href="{{ url_for('index') }}">Workspace</a><a class="{{ 'nav-active' if request.endpoint == 'guidelines' else '' }}" href="{{ url_for('guidelines') }}">Brand rules</a><a class="{{ 'nav-active' if request.endpoint == 'history' else '' }}" href="{{ url_for('history') }}">Review history</a></nav>
+    <a class="nav-cta" href="{{ url_for('index') }}#review"><span>＋</span> New review</a>
+  </div>
+</header>
+<main class="page">{% block content %}{% endblock %}</main>
+<footer><div class="footer-inner"><a class="footer-brand" href="{{ url_for('index') }}"><span class="logo small-logo">i</span> inkloom <b>AI</b></a><span>Prototype workspace · Human review stays in control</span><span class="footer-status"><i></i> Local demo</span></div></footer>
+</body>
+</html>

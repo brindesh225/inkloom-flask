@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Brand rules · Inkloom AI{% endblock %}
+{% block content %}
+<div class="page-intro"><p class="eyebrow">GOVERNANCE / RULE LIBRARY</p><h1>Sample brand rules</h1><p class="lead compact">A transparent set of fictional guidelines that powers the demo checker. Every finding should connect to a rule or request human verification.</p></div>
+<div class="rule-intro"><div class="rule-intro-icon">✦</div><div><b>How this rule library works</b><p>Inkloom compares draft text with a small set of phrases and style patterns. It does not know a real organisation's brand voice unless its rules are supplied and configured.</p></div></div>
+<div class="rule-grid">{% for category, rule, suggestion in rules %}<article class="rule-card"><div class="rule-card-top"><span class="rule-number">{{ '%02d'|format(loop.index) }}</span><span class="category">{{ category }}</span></div><h2>{{ rule }}</h2><div class="rule-preferred"><span>✓</span><div><b>Preferred approach</b><p>{{ suggestion }}</p></div></div></article>{% endfor %}</div>
+<div class="note"><span class="note-icon">i</span><div><b>Scope and limitations</b><p>Text-only checks with fictional sample data. Image checks, external AI integrations, advanced fact verification, logins, and role-based permissions are not implemented in this prototype.</p></div></div>
+{% endblock %}
